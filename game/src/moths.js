@@ -1,9 +1,9 @@
-// The moths: Lanternfall's enemies. Four kinds share one body plan (a fuzz body,
-// two wings, two embers for eyes) and differ in speed, health and behaviour.
-// A darter flutters straight at the light; a brute soaks damage and slams; a
-// weaver keeps its distance and spits gloom; a surge moth arrives only in surge
-// waves and is fast and fragile. All steering is hand-rolled — no path library —
-// and the flock keeps its distance from the standing stones.
+// The moths: Lanternfall's enemies. Four kinds share one body plan (a fuzz
+// body, two wings, two embers for eyes) and differ in speed, health and
+// behaviour. A darter flutters straight at the light; a brute soaks damage and
+// slams; a weaver keeps its distance and spits gloom; a surge moth arrives only
+// in surge waves and is fast but fragile. All steering is hand-rolled — no
+// path library — and the flock keeps clear of the standing stones.
 
 import * as THREE from 'three';
 import { PALETTE, MOTH_TINT } from './palette.js';
@@ -94,7 +94,7 @@ export class Moth {
       desired.add(new THREE.Vector3(-toPlayer.z, 0, toPlayer.x).multiplyScalar(sway));
     }
 
-    // Steer off standing stones.
+    // Steer clear of the standing stones.
     for (const s of stones) {
       const away = this.pos.clone().sub(s); away.y = 0;
       const d = away.length();

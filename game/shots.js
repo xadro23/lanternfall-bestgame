@@ -79,7 +79,7 @@ browserWs.addEventListener('message', (e) => {
 
 for (const shot of shots) {
   await call('Page.navigate', { url: `http://localhost:8080/index.html${shot.query}` }, sessionId);
-  // Wait for the scene to say it is composed, not for a wall-clock guess.
+  // Wait for the scene to signal it is composed, not for a wall-clock guess.
   let ready = false;
   for (let i = 0; i < 100 && !ready; i++) {
     await sleep(150);

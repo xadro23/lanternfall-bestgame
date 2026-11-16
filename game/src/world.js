@@ -1,7 +1,7 @@
-// Lanternfall's world: the valley the lantern walks through. A low-poly ground
-// plane, a ring of stone ridges, a scatter of standing stones that moths crash
-// against, and the ground fog the light cuts through. Everything here is static
-// geometry built once at boot; the wave director never touches it.
+// Lanternfall's world: the valley the lantern walks. A low-poly ground disc,
+// a ring of stone ridges, scattered standing stones the moths crash against,
+// the ground fog that the light cuts through. It is all static geometry,
+// built once at boot; the wave director never touches it.
 
 import * as THREE from 'three';
 import { PALETTE } from './palette.js';

@@ -26,7 +26,7 @@ if (existsSync(join(here, 'screenshots'))) {
 }
 
 // The scorer's own caps (reference/gate.json): text_max_bytes shapes the bytes,
-// the rest refuse an entry the scorer would refuse — more than 4 screenshots or
+// the rest reject an entry the scorer would refuse — more than 4 screenshots or
 // one over 256 KiB, more than 993 files in game/ or 48 MiB of game files, or a
 // path under game/ longer than 1000 bytes.
 writeFileSync(

@@ -24,7 +24,7 @@ mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
 `main.ts` copies `game/` and `screenshots/` into the output directory and writes
-`dossier.json`, the summary the judge reads.
+`dossier.json`, the summary that the judge reads.
 
 ## Screenshots
 

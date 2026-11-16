@@ -1,6 +1,6 @@
-// Lanternfall's upgrade catalogue: three cards offered after every cleared wave,
-// drawn at random from this pool and weighted so the first waves teach the
-// economy and the later ones reward commitment.
+// Lanternfall's upgrade catalogue: three cards offered after each cleared wave,
+// drawn at random from this pool and weighted so the early waves teach the
+// economy while later ones reward commitment.
 
 export const UPGRADE_POOL = [
   { id: 'wider',   name: 'Wider beam',   blurb: 'The cone reaches further out from the wick.', tier: 'reach',   w: 3 },
@@ -11,6 +11,7 @@ export const UPGRADE_POOL = [
   { id: 'warmth',  name: 'Extra warmth', blurb: 'One more heart before the dark wins.',        tier: 'survival',w: 1 },
 ];
 
+// Weighted draw without replacement; the 'warmth' card is capped at two buys.
 export function drawCards(taken, count = 3) {
   const pool = UPGRADE_POOL.filter((c) => c.id !== 'warmth' || taken.filter((t) => t === 'warmth').length < 2);
   const picked = [];

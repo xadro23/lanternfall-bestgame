@@ -1,7 +1,7 @@
-// Lanternfall's local play server: serves game/ at http://localhost:8080 with no
-// build step, exactly as the grader serves it (a static file server rooted at
-// game/). `node game/serve.js` then open http://localhost:8080 to play.
-// The screenshots are taken through Chrome's own headless mode (see shots.md).
+// Lanternfall's local play server: serves game/ at http://localhost:8080 with
+// no build step, exactly as the grader serves it (a static file server rooted
+// at game/). `node game/serve.js` then open http://localhost:8080 to play.
+// Screenshots are captured through Chrome's own headless mode (see shots.md).
 
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';

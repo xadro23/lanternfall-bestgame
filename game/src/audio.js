@@ -1,7 +1,7 @@
 // Lanternfall's sound: one WebAudio context built on the first user gesture,
 // three synthesised voices (the wick's burn, a moth's death, the player's hurt)
 // and a slow two-note drone that keeps the valley from ever feeling silent.
-// Nothing is sampled; every sound is an oscillator or a noise buffer, so the
+// Nothing is sampled; each sound is an oscillator or a noise buffer, so the
 // whole score ships with zero asset bytes.
 
 let ctx = null;

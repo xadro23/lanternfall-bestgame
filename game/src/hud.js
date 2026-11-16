@@ -1,6 +1,6 @@
-// Lanternfall's HUD: hearts, the oil gauge, wave and score lines, banners and
-// the three overlay screens (title, upgrade choice, end). Pure DOM over the
-// canvas; the game state pushes into it, it never reads back.
+// Lanternfall's HUD: hearts, the oil gauge, wave and score lines, banners, and
+// the three overlays (title, upgrade choice, end). Pure DOM drawn over the
+// canvas; game state pushes into it, it never reads back.
 
 const el = (id) => document.getElementById(id);
 

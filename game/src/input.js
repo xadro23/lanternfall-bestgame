@@ -1,6 +1,6 @@
-// Lanternfall's input: keyboard state, the pointer's normalised position, the
-// burn trigger and the pulse key, plus a tiny `?shot=` hook so the game can be
-// driven deterministically for screenshots (the same scene, the same seed).
+// Lanternfall input: keyboard state, the pointer's normalised position, the
+// burn trigger and the pulse key, plus a small `?shot=` hook so the game can
+// be driven deterministically for screenshots (same scene, same seed).
 
 export class Input {
   constructor(canvas) {
@@ -36,7 +36,7 @@ export class Input {
     return p;
   }
 
-  // Screenshot driver: the query string names a scene and a seed.
+  // Screenshot driver: the query string names a scene plus a seed.
   static fromQuery() {
     const q = new URLSearchParams(location.search);
     return { shot: q.get('shot'), seed: Number(q.get('seed') || 1) };

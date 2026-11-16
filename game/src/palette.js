@@ -1,6 +1,6 @@
-// Lanternfall's palette: one warm light against a cold, blue-black valley.
+// Lanternfall palette: one warm light set against a cold, blue-black valley.
 // Every colour the game draws comes from here, so the whole scene reads as one
-// piece of art direction rather than as separate objects.
+// piece of art direction rather than separate objects.
 
 export const PALETTE = {
   night: 0x070a12,
@@ -30,8 +30,8 @@ export const PALETTE = {
   fog: 0x0a0d16,
 };
 
-// A scene-wide tint used by the HUD and the DOM overlay so the page and the
-// render share the same warm accent.
+// Scene-wide tint used by the HUD and DOM overlay so page and render share
+// the same warm accent.
 export const CSS = {
   ember: '#ffb24a',
   emberDeep: '#d9702a',
@@ -41,8 +41,8 @@ export const CSS = {
   ink: '#f4efe4',
 };
 
-// Three colours a moth is drawn with, by kind. Kept as plain arrays so a moth
-// can pick its own tint from one lookup at spawn time.
+// The three colours a moth is drawn with, one set per kind. Plain objects so a moth can
+// pick its tint from one lookup at spawn time.
 export const MOTH_TINT = {
   darter: { body: PALETTE.moth, wing: PALETTE.mothWing },
   brute: { body: PALETTE.brute, wing: PALETTE.bruteWing },

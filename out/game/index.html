@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lanternfall</title>
+<style>
+  :root {
+    --ink: #f4efe4;
+    --dim: #a9a191;
+    --ember: #ffb24a;
+    --ember-deep: #d9702a;
+    --blood: #e0574f;
+    --moss: #8ed49a;
+    --void: #06070b;
+    --panel: rgba(10, 12, 18, 0.88);
+    --font: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--void);
+    color: var(--ink);
+    font-family: var(--font);
+    overflow: hidden;
+  }
+  #stage { position: fixed; inset: 0; }
+  #stage canvas { display: block; }
+
+  .hud {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    font-variant-numeric: tabular-nums;
+  }
+  #hearts {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    display: flex;
+    gap: 8px;
+  }
+  #hearts i {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    background: var(--blood);
+    box-shadow: 0 0 12px rgba(224, 87, 79, 0.7);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+  #hearts i.gone { opacity: 0.14; transform: scale(0.78); box-shadow: none; }
+
+  #oil-wrap {
+    position: absolute;
+    left: 24px;
+    bottom: 52px;
+    width: 220px;
+    height: 9px;
+    border-radius: 6px;
+    background: rgba(244, 239, 228, 0.12);
+    overflow: hidden;
+  }
+  #oil { height: 100%; width: 100%; background: linear-gradient(90deg, var(--ember-deep), var(--ember)); }
+  #oil.low { background: linear-gradient(90deg, #8d3a2c, #d0574b); }
+
+  #wave-line {
+    position: absolute;
+    left: 24px;
+    top: 20px;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  #wave-line b { color: var(--ink); font-weight: 600; }
+
+  #score-line {
+    position: absolute;
+    right: 24px;
+    top: 20px;
+    text-align: right;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  #score-line b { color: var(--ember); font-weight: 600; font-size: 18px; font-family: var(--mono); }
+
+  #banner {
+    position: absolute;
+    left: 50%;
+    top: 16%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0;
+    text-shadow: 0 0 22px rgba(255, 178, 74, 0.55);
+    transition: opacity 260ms ease;
+  }
+  #banner.show { opacity: 1; }
+
+  #hint {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    font-size: 13px;
+    color: var(--dim);
+    letter-spacing: 0.06em;
+  }
+
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 50% 42%, rgba(24, 18, 12, 0.72), rgba(6, 7, 11, 0.96) 62%);
+    padding: 24px;
+  }
+  .screen[hidden] { display: none; }
+  .panel {
+    width: min(660px, 100%);
+    background: var(--panel);
+    border: 1px solid rgba(244, 239, 228, 0.14);
+    border-radius: 14px;
+    padding: 34px 36px 30px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.62);
+  }
+  .panel h1 {
+    margin: 0;
+    font-size: 46px;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+  .panel h1 span { color: var(--ember); }
+  .panel h2 {
+    margin: 0 0 6px;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+  }
+  .panel p { margin: 14px 0 0; color: var(--dim); line-height: 1.55; font-size: 15px; }
+  .panel p b { color: var(--ink); font-weight: 600; }
+
+  .keys {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 20px;
+    font-size: 14px;
+    color: var(--dim);
+  }
+  .keys li { display: flex; align-items: center; gap: 9px; }
+  kbd {
+    min-width: 26px;
+    padding: 3px 7px;
+    border: 1px solid rgba(244, 239, 228, 0.24);
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    text-align: center;
+  }
+
+  .start {
+    margin-top: 26px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border: 1px solid var(--ember);
+    border-radius: 999px;
+    background: var(--ember);
+    color: #1a1104;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 160ms ease;
+    box-shadow: 0 0 26px rgba(255, 178, 74, 0.28);
+  }
+  .start:hover { transform: translateY(-1px); box-shadow: 0 0 34px rgba(255, 178, 74, 0.44); }
+  .start:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+  .cards {
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .card {
+    padding: 16px 15px;
+    border: 1px solid rgba(244, 239, 228, 0.16);
+    border-radius: 11px;
+    background: rgba(244, 239, 228, 0.04);
+    cursor: pointer;
+    text-align: left;
+    color: var(--ink);
+    font: inherit;
+    transition: border-color 130ms ease, background-color 130ms ease, transform 130ms ease;
+  }
+  .card:hover, .card:focus-visible {
+    border-color: var(--ember);
+    background: rgba(255, 178, 74, 0.1);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 15px; letter-spacing: 0.01em; }
+  .card p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--dim); }
+  .card .tier { display: block; margin-top: 10px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); }
+
+  .stats {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 24px;
+    font-size: 14px;
+  }
+  .stats li { display: flex; justify-content: space-between; gap: 12px; color: var(--dim); }
+  .stats b { color: var(--ink); font-family: var(--mono); }
+  .stats .win b { color: var(--moss); }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+
+<div class="hud" id="hud" hidden>
+  <div id="wave-line">Wave <b id="wave-n">1</b> / <span id="wave-max">12</span></div>
+  <div id="score-line">Score <b id="score">0</b></div>
+  <div id="banner"></div>
+  <div id="oil-wrap"><div id="oil"></div></div>
+  <div id="hearts"></div>
+  <div id="hint">Hold left mouse button to burn the dark — keep an eye on your oil.</div>
+</div>
+
+<div class="screen" id="screen-title">
+  <section class="panel">
+    <h1>Lantern<span>fall</span></h1>
+    <p>The valley goes dark and the moths come for the light. You carry the last lantern.
+       <b>Burn them</b> with its beam, but every second of fire drinks your oil — and the brighter you burn,
+       the more of them come.</p>
+    <ul class="keys">
+      <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</li>
+      <li><kbd>Mouse</kbd> Aim the beam</li>
+      <li><kbd>Hold click</kbd> Burn</li>
+      <li><kbd>Shift</kbd> Dart (costs oil)</li>
+      <li><kbd>Space</kbd> Pulse (clears close moths)</li>
+      <li><kbd>P</kbd> Pause</li>
+    </ul>
+    <button class="start" id="btn-start" type="button">Light the lantern</button>
+  </section>
+</div>
+
+<div class="screen" id="screen-upgrade" hidden>
+  <section class="panel">
+    <h2 id="upgrade-title">Wave cleared</h2>
+    <p id="upgrade-copy">Take one thing with you into the next wave.</p>
+    <ul class="cards" id="cards"></ul>
+  </section>
+</div>
+
+<div class="screen" id="screen-over" hidden>
+  <section class="panel">
+    <h1 id="over-title">The lantern gutters out</h1>
+    <p id="over-copy">The valley keeps its dark.</p>
+    <ul class="stats" id="over-stats"></ul>
+    <button class="start" id="btn-again" type="button">Walk back in</button>
+  </section>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.min.js" } }
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

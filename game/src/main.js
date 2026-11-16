@@ -1,5 +1,5 @@
 // Lanternfall — the entrypoint. Wires the world, the player, the moths, the
-// director and the HUD together and runs the fixed-timestep loop. Also carries
+// director and the HUD together and runs a fixed-step loop. It also carries
 // the ?shot=<scene>&seed=<n> deterministic screenshot driver so the three cover
 // shots (title, mid-play, the last-stand over screen) render identically on
 // every machine the grader or a reviewer opens it on.

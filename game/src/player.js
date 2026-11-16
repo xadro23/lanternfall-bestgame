@@ -1,7 +1,8 @@
 // The player and the lantern they carry. Third-person: the camera follows just
 // behind and above, the lantern hangs at the stick's tip, and the burn beam is
-// a cone of light from that tip to the ground where the mouse points. Movement
-// is relative to the camera so WASD always means what the eye expects.
+// a cone of light from that tip down to wherever the mouse points on the
+// ground. Movement is relative to the camera so WASD always means what the eye
+// expects.
 
 import * as THREE from 'three';
 import { PALETTE } from './palette.js';
@@ -181,7 +182,7 @@ export class Player {
     this.wick.position.y = this.cage.position.y;
     this.light.position.y = this.cage.position.y;
 
-    // The light dims as the oil runs low: the core drama of the game.
+    // The light dims as oil runs low: the core drama of the game.
     const oilFrac = this.oil / this.maxOil;
     this.light.intensity = 1.4 + oilFrac * 2.4 + (burningNow ? 2.0 : 0);
     const warm = new THREE.Color(PALETTE.ember).lerp(new THREE.Color(PALETTE.emberDeep), 1 - oilFrac);

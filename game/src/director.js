@@ -89,7 +89,7 @@ export class Director {
   }
 
   spawnMoth(kind, playerPos) {
-    // Spawn on the valley edge, away from the player's current side a little.
+    // Spawn at the valley edge, a little away from the player's side.
     const angle = Math.atan2(playerPos.z, playerPos.x) + Math.PI + (Math.random() - 0.5) * 1.6;
     const radius = 30 + Math.random() * 10;
     const spawn = new THREE.Vector3(Math.cos(angle) * radius, 2, Math.sin(angle) * radius);
