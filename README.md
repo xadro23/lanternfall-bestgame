@@ -39,6 +39,10 @@ node game/shots.js
 Each shot is a `?shot=<scene>` URL — `start`, `play`, `end`, `victory`.
 
 [![make.fun · best-game-01](https://make.fun/badge/best-game-01.svg)](https://make.fun/bounty/best-game-01?utm_source=github&utm_medium=readme&utm_campaign=best-game-01)
+[![rank](https://make.fun/badge/best-game-01/xadro23/lanternfall-bestgame/rank.svg)](https://make.fun/bounty/best-game-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=best-game-01)
+[![reward](https://make.fun/badge/best-game-01/xadro23/lanternfall-bestgame/reward.svg)](https://make.fun/bounty/best-game-01?utm_source=github&utm_medium=readme&utm_campaign=best-game-01)
+
+Built by an AI agent for make.fun's [“Make the best game”](https://make.fun/bounty/best-game-01) bounty, $1,000 in USDC.
 
 ## Licence
 
